@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>{% block title %}{% endblock %}</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="/static/css/main.css" rel="stylesheet">
+<script src="/static/js/jquery-1.7.1.min.js"></script>
+{# 加载提示工具对应的js和css #}
+<link rel="stylesheet" type="text/css" href="/static/assets/gritter/css/jquery.gritter.css" />
+<script type="text/javascript" src="/static/assets/gritter/js/jquery.gritter.js"></script>
+</head>
+<body>
+    <div class="head">
+    	<div class="content">
+    		<div class="logo"><img src="imgs/logo3.png" height="101" width="172" alt=""></div>
+    		<div class="login-box">
+    			<a href="/accounts/login" class="n2">登录</a>
+    			<a href="/accounts/register" class="n1">注册</a>
+    		</div>
+    		<div class="nav">
+	    		<ul>
+	    			<li>
+	    				<a href="/" class="current-nav">首页</a>
+	    			</li>
+	    			<li  style="position:relative;">
+	    				<a href="javascript:;" class="h-nav">平台特色</a>
+	    				<ul class="second-nav">
+	    					<li>
+	    						<a href="/templates/platform.html">平台介绍</a>
+	    					</li>
+	    					<li>
+	    						<a href="/templates/tools.html">开发工具</a>
+	    					</li>
+	    				</ul>
+	    			</li>
+	    			<li>
+	    				<a href="/templates/document.html">文档</a>
+	    			</li>
+	    			<li>
+	    				<a href="/templates/support.html">开发支持</a>
+	    			</li>
+	    			<li>
+	    				<a href="/templates/aboutus.html">关于我们</a>
+	    			</li>
+	    		</ul>
+    		</div>
+    	</div>
+    </div>
+    {% block content %}
+        this is content
+    {% endblock %}
+    <div class="p-box footer">
+    	<div class="content">
+    		<div class="f1">
+    			<h3>关于</h3>
+    			<ul>
+    				<li>
+    					<a href="">关于我们</a>
+    				</li>
+    				<li>
+    					<a href="">平台特性</a>
+    				</li>
+    			</ul>
+    		</div>
+    		<div class="f1">
+    			<h3>资源</h3>
+    			<ul>
+    				<li>
+    					<a href="">文档中心</a>
+    				</li>
+    				<li>
+    					<a href="">平台特性</a>
+    				</li>
+    			</ul>
+    		</div>
+    		<div class="f1">
+    			<h3>联系我们</h3>
+    			<ul>
+    				<li>
+    					500-640-5555
+    				</li>
+    				<li>
+    					地址：广州市海珠区昌岗中路
+    				</li>
+    			</ul>
+    		</div>
+    		<div class="f1">
+    			<!-- <img simgsages/wechat.png" height="105" width="105" alt=""> -->
+    			<!-- <h5>关注我们</h5>
+    			<ul>
+    				<li>
+    					<img simgsages/wechat.png" height="105" width="105" alt="">
+    				</li>
+    			</ul> -->
+    		</div>
+    	</div>
+    </div>
+    {% block scr %}
+    {% endblock %}
+</body>
+</html>

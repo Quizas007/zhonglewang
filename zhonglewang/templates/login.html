@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}
+    用户登录
+{% endblock %}
+{% block content %}
+<div class="p-box">
+    	<div class="content ct-login">
+    		<h1>众乐网-登录</h1>
+    		<form method="post">
+                {% csrf_token %}
+	    		<div class="login">
+	    			<div class="filter">
+	    				{{ form.username }}
+	    			</div>
+	    			<div class="filter">
+	    				{{ form.password }}
+	    			</div>
+	    			<div class="filter">
+	    				<input type="submit" class="btn-login" value="登录">
+	    			</div>
+	    			<div class="filter">
+	    				<div  class="f-pwd">
+	    					<a href="">忘记密码？</a>
+	    				</div>
+	    			</div>
+                    <p class="msg"></p>
+                    {% if msg %}
+                    <div class="alert alert-block alert-danger fade in">
+                          <button data-dismiss="alert" class="close close-sm" type="button">
+                              <i class="icon-remove"></i>
+                          </button>
+                          <strong>提醒!</strong> {{ msg }}
+                    </div>
+                    {% endif %}
+	    		</div>
+	    	</form>
+    	</div>
+    </div>
+{% endblock %}
+{% block src %}
+    <script>
+        $(function(){
+            $(".nav li").hover(function() {
+                $(".second-nav",this).slideDown(100);
+                /* Stuff to do when the mouse enters the element */
+            }, function() {
+                $(".second-nav",this).slideUp(100);
+                // $(".second-nav").hide();
+                /* Stuff to do when the mouse leaves the element */
+            });
+            $(".login label").click(function(){
+                $(this).next().focus();
+            });
+            $(".login input").blur(function(event) {
+                if ($(this).val()=="") {
+                    $(this).prev().show();
+                };
+                /* Act on the event */
+            });
+            $(".login input").focus(function(event) {
+                $(this).prev().hide();
+                /* Act on the event */
+            });
+            $(".login input.username").blur(function(event) {
+                if ($(this).val()=="") {
+                    $(this).next().show().text("请输入用户名");
+                }
+                else{
+                    $(this).next().hide();
+                }
+                /* Act on the event */
+            });
+        })
+    </script>
+{% endblock src %}
