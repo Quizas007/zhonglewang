@@ -39,6 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.accounts',
     'apps.apis',
+    'apps.techstack',
+    'ckeditor',
+    'ckeditor_uploader',
+    'apps.tasks',
+    'easy_thumbnails',
+    'apps.usercenter',
 ]
 
 MIDDLEWARE = [
@@ -199,6 +205,22 @@ LOGGING = {
             'backupCount': 5,
             'formatter': 'standard',
         },
+        'techstack_handler':{
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_ROOT, 'techstack.log'),
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
+        'tasks_handler':{
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_ROOT, 'tasks.log'),
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'standard',
+        }
     },
     'loggers': {
         # 'django': {
@@ -216,6 +238,16 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False
         },
+        'techstack': {
+            'handlers': ['techstack_handler','console'],
+            'level': 'DEBUG',
+            'propagate':False
+        },
+        'tasks': {
+            'handlers': ['tasks_handler','console'],
+            'level': 'DEBUG',
+            'propagate':False
+        },
     }
 }
 
@@ -230,4 +262,45 @@ CACHES = {
              "PASSWORD": "",
         },
     },
+}
+
+
+# 注意：在此之前需要配置MEDIA_URL和MEDIA_ROOT
+# 配置媒体文件路径
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+if not os.path.exists(MEDIA_ROOT):
+    os.mkdir(MEDIA_ROOT)
+MEDIA_URL = '/media/'
+
+# CKEditor配置
+# 真实路径为：MEDIA_URL+CKEDITOR_UPLOAD_PATH(MEDIA_ROOT/CKEDITOR_UPLOAD_PATH)
+CKEDITOR_UPLOAD_PATH = "ckeditor_upload"
+
+# 配置编辑器功能
+CKEDITOR_CONFIGS = {
+    'awesome_ckeditor': {
+        'toolbar': 'Basic',
+    },
+    'default_ckeditor':{
+        'toolbar': 'Full',
+    },
+    'default': {
+        'toolbar': 'Full',
+    },
+}
+
+# 配置缩略图（easy_tuhubnail暂时生成不出来...）
+THUMBNAIL_ALIASES = {
+    # target: 'accounts.User' => 给哪个app/Model/Field配置缩略图
+    '': {
+        # avatar: 表示将来引用的名字
+        # crop: False=> 不裁剪、同比例缩小
+        'avator': {'size': (50, 50), 'crop': True},
+    },
+
+    # 'accounts': {
+    #     'xs': {'size': (30, 30), 'crop': True},
+    #     'xs_nocorp': {'size': (30, 30), 'crop': False},
+    # },
 }

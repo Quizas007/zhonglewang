@@ -24,7 +24,7 @@
 	    			<div class="filter">
 	    				{{ form.mobile }}
 	    			</div>
-	    			<div class="filter" style="text-align:left;">
+	    			<div class="filter">
 	    				{{ form.mobile_captcha }}
 {#	    				<a href="" style="" class="telvalidate">获取手机验证码</a>#}
                         {# 给发送短信按钮添加动作 #}
@@ -35,7 +35,7 @@
 	    			</div>
 	    			<div class="filter">
 	    				<div class="f-pwd">
-	    					已有账号？<a href="login.html">马上登录</a>
+	    					已有账号？<a href="{% url 'accounts:login' %}">马上登录</a>
 	    				</div>
 	    			</div>
 	    		</div>

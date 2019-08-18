@@ -32,6 +32,7 @@ def send_sms(mobile,captcha):
         html = urllib.request.urlopen(request).read().decode('utf-8')
         # html = '{"code":"000000","count":"1","create_date":"2018-07-23 13:34:06","mobile":"15811564298","msg":"OK","smsid":"852579cbb829c08c917f162b267efce6","uid":""}'
         code = json.loads(html)["code"]
+        logger.info(f"结果是：{html}")
         if code == "000000":
             logger.info(f"短信发送成功：{html}")
             flag = True

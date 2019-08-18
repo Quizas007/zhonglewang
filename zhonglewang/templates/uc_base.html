@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load staticfiles%}
+{% block content %}
+    <div class="row">
+      <aside class="profile-info col-lg-3">
+        <div class="panel">
+          <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked">
+            {% url 'usercenter:profile' as uc_profile %}
+            {% url 'usercenter:change_passwd' as uc_change_passwd %}
+            {% url 'usercenter:answer' as uc_answer %}
+            {% url 'usercenter:collect' as uc_collect %}
+            {% url 'usercenter:contribut' as uc_contribut %}
+            {% url 'usercenter:approval' as uc_approval %}
+            <li role="presentation" class="{% if request.path == uc_profile %}active{% endif %}"><a href="{% url 'usercenter:profile' %}">个人资料</a></li>
+            <li role="presentation" class="{% if request.path == uc_change_passwd %}active{% endif %}"><a href="{% url 'usercenter:change_passwd' %}">修改密码</a></li>
+            <li role="presentation"><a href="{% url 'usercenter:article' %}">我的贡献</a></li>
+            <li role="presentation"><a href="">我的收藏</a></li>
+            {# 判断用户是否有审核权限 #}
+    {#        {% if perms.repo.can_change_question_status or request.user.is_superuser %}#}
+    {#            <li role="presentation" class="{% if current_url == uc_approval %}active{% endif %}"><a href="{% url 'usercenter:approval' %}">审核状态</a></li>#}
+    {#        {% endif %}#}
+            </ul>
+          </div>
+        </div>
+      </aside>
+      <aside class="profile-info col-lg-9">
+          {% block uc_content %}
+          {% endblock %}
+      </aside>
+    </div>
+{% endblock %}
+{% block scr %}
+{% endblock %}
+{% block load_css %}
+{% endblock %}

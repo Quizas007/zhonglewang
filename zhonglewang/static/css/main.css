@@ -524,3 +524,78 @@ input.btn-edit{
 input.btn-delete{
 	background: url(../imgs/delete.png) no-repeat center left;
 }
+
+/*---revenue----*/
+
+.revenue-head {
+    /*background: #ff6c60;*/
+    background: #2ccac0;
+    -webkit-border-radius: 4px 4px 0px 0px;
+    border-radius: 4px 4px 0px 0px;
+    color: #fff;
+    line-height: 50px;
+}
+
+.revenue-head span {
+    /*background: #e56155;*/
+    background: #01a89e;
+    padding: 16px;
+    -webkit-border-radius: 4px 0px 0px 0px;
+    border-radius: 4px 0px 0px 0px;
+}
+
+.revenue-head span i {
+    font-size: 18px;
+}
+
+.revenue-head h3 {
+    display: inline;
+    padding: 0 10px;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.revenue-head span.rev-combo {
+    background: #e56155;
+    padding: 16px;
+    line-height: normal;
+    -webkit-border-radius: 0px 4px 0px 0px;
+    border-radius: 0px 4px 0px 0px;
+}
+
+.panel {
+    margin-bottom:10px;
+}
+
+.bio-chart, .bio-desk {
+    float: left;
+}
+
+.bio-chart {
+    width: 40%;
+}
+
+.bio-desk {
+    width: 60%;
+}
+
+.bio-desk h4 {
+    font-size: 15px;
+    font-weight:400;
+}
+
+.bio-desk h4.terques {
+    color: #4CC5CD;
+}
+
+.bio-desk h4.red {
+    color: #e26b7f;
+}
+
+.bio-desk h4.green {
+    color: #97be4b;
+}
+
+.bio-desk h4.purple {
+    color: #caa3da;
+}
