@@ -27,26 +27,17 @@
 	    			<li>
 	    				<a href="/" style="text-decoration: none">首页</a>
 	    			</li>
-{#                    style="position:relative;"#}
 	    			<li>
-	    				<a href="/" style="text-decoration: none">任务大厅</a>
-{#	    				<ul class="second-nav">#}
-{#	    					<li>#}
-{#	    						<a href="/templates/platform.html">平台介绍</a>#}
-{#	    					</li>#}
-{#	    					<li>#}
-{#	    						<a href="/templates/tools.html">开发工具</a>#}
-{#	    					</li>#}
-{#	    				</ul>#}
+	    				<a href="{% url 'tasks:freelist' %}" style="text-decoration: none">任务大厅</a>
 	    			</li>
 	    			<li>
-	    				<a href="/templates/document.html" style="text-decoration: none">发布任务</a>
+	    				<a href="{% url 'tasks:create' %}" style="text-decoration: none">发布任务</a>
 	    			</li>
 	    			<li>
 	    				<a href="{% url 'techstack:articles' %}" style="text-decoration: none">技术栈</a>
 	    			</li>
 	    			<li>
-	    				<a href="/templates/aboutus.html" style="text-decoration: none">关于我们</a>
+	    				<a href="{% url 'techstack:article_create' %}" style="text-decoration: none">发表文章</a>
 	    			</li>
                     <li class="dropdown">
                         <a style="text-decoration: none">
@@ -98,7 +89,7 @@
 {#	    				</ul>#}
 	    			</li>
 	    			<li>
-	    				<a href="/templates/document.html" style="text-decoration: none">发布任务</a>
+	    				<a href="#" style="text-decoration: none">发布任务</a>
 	    			</li>
 	    			<li>
 	    				<a href="{% url 'techstack:articles' %}" style="text-decoration: none">技术栈</a>
@@ -113,17 +104,6 @@
     {% endblock %}
 
     {% block scr %}
-{#        <script>#}
-{#            // 导航栏添加选中样式#}
-{#            $(document).ready(function(){#}
-{#                $(".nav a").each(function(){#}
-{#                    $this = $(this);#}
-{#                    if($this[0].href==String(window.location)){#}
-{#                        $this.addClass("current-nav");#}
-{#                    }#}
-{#                });#}
-{#            });#}
-{#        </script>#}
     {% endblock %}
     {% block load_css %}
     {% endblock %}

@@ -13,6 +13,7 @@
                   <th style="width:8px;"><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /></th>
                   <th class="hidden-phone">序号</th>
                   <th class="hidden-phone">标题</th>
+                  <th class="hidden-phone">浏览量</th>
                   <th class="hidden-phone">收藏量</th>
               </tr>
               </thead>
@@ -22,6 +23,7 @@
                         <td><input type="checkbox" class="checkboxes" value="1"></td>
                         <td>{{ article.id }}</td>
                         <td><a href="{% url 'techstack:article_detail' article.id %}">{{ article.title }}</a></td>
+                        <td>{{ article.total_views }}</td>
                         <td>{{ article.articles_collection_set.count }}</td>
                     </tr>
                 {% endfor %}

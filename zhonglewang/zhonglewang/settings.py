@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'apps.tasks',
     'easy_thumbnails',
     'apps.usercenter',
+    'apps.chat',
+    'channels',
+    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -256,7 +259,7 @@ CACHES = {
         # BACKEND配置缓存后端为RedisCache
         'BACKEND': 'django_redis.cache.RedisCache',
         # LOCATION配置redis服务器地址
-        'LOCATION': 'redis://192.168.0.120:6379',
+        'LOCATION': 'redis://192.168.0.121:6379',
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
              "PASSWORD": "",
@@ -303,4 +306,16 @@ THUMBNAIL_ALIASES = {
     #     'xs': {'size': (30, 30), 'crop': True},
     #     'xs_nocorp': {'size': (30, 30), 'crop': False},
     # },
+}
+
+# channels配置
+ASGI_APPLICATION = 'zhonglewang.routing.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('192.168.0.121',6379)],
+        },
+    },
 }

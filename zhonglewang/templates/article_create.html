@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    发表文章
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <br>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="title">文章标题</label>
+                        <input type="text" class="form-control" id="title" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="body">文章正文</label>
+                        <textarea type="text" class="form-control" id="body" name="body" rows="12"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">完成</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scr %}
+    <script src="{% static 'layui/layui.js' %}"></script>
+{#    <script href="{% static 'layui/lay/modules/layedit.js' %}"></script>#}
+    {# layui富文本编辑器 #}
+    <script>
+        layui.use('layedit',function () {
+            var layedit = layui.layedit;
+            // 建立编辑器
+            layedit.build('body');
+        })
+    </script>
+{% endblock %}
+{% block load_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'layui/css/layui.css' %}">
+{% endblock %}

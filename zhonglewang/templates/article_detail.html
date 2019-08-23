@@ -1,10 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>文章详情</title>
-</head>
-<body>
-    这是文章详情页
-</body>
-</html>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    文章详情
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <h1 class="col-12 mt-4 mb-4">{{ article.title }}</h1>
+            <div class="col-12 alert alert-success">
+                作者：{{ user }}
+                {% if user == article.author %}
+                ···<a href="#" onclick="confirm_delete()">删除文章</a>···
+                <a href="{% url 'techstack:article_update' article.id %}">编辑文章</a>···
+                {% endif %}
+                <div>
+                浏览量：{{ article.total_views }}
+                </div>
+            </div>
+            <div class="col-12">
+                {{ article.body|safe }}
+{#                <p>{{ article.body }}</p>#}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scr %}
+    {# 引入layer.js #}
+    <script src="{% static 'layer/layer.js' %}"></script>
+    <script>
+        //删除文章函数
+        function confirm_delete() {
+            // 调用layer组件
+            layer.open({
+                // 弹窗标题
+                title:"确认删除",
+                content:"是否确认删除这边文章？",
+                yes:function (index,layero) {
+                    // 指定应当前往的url
+                    location.href='{% url 'techstack:article_delete' article.id %}'
+                }
+            })
+        }
+    </script>
+{% endblock %}
+{% block load_css %}
+{% endblock %}

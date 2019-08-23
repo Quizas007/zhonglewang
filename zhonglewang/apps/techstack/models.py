@@ -41,6 +41,8 @@ class Articles(models.Model):
     category = models.ForeignKey(Category, verbose_name="所属分类", null=True,on_delete=models.CASCADE)
     # 数组....(会产生一个中间表)
     tag = models.ManyToManyField(Tag, verbose_name="文章标签")
+    # 文章浏览量
+    total_views = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name = "文章"
@@ -70,6 +72,8 @@ class ArticlesCollection(models.Model):
         else:
             ret="取消收藏"
         return f"{self.user}:{ret}:{self.article.title}"
+
+
 
 
 

@@ -67,7 +67,7 @@
                               >作者</th>
                           <th data-field="collection_rate"
                               data-formatter="collection_rateFormatter"
-                              >收藏率</th>
+                              >收藏量</th>
                           <th data-field="oper"
     {#                          /*操作格式为自定义函数operateFormatter返回的样式*/#}
                               data-formatter="operateFormatter"
@@ -100,7 +100,7 @@
             return "<a href='"+url_article_detail+"'>"+row.title.substring(0, 50)+"</a>";
          }
 
-         // 定义答题率格式，返回html字符串
+         // 定义收藏量格式，返回html字符串
          function collection_rateFormatter(value, row, index) {
             return '17%'
         }

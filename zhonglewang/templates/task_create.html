@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    众乐网-发布需求
+{% endblock %}
+{% block content %}
+    <div style="margin-top: 30px">
+        &nbsp&nbsp&nbsp
+        <i class="glyphicon glyphicon-bell" style="color: #0c80ba"></i>
+        当前位置：众乐网&nbsp-->&nbsp;发布需求
+    </div>
+    <div class="alert alert-info" role="alert" style="margin-top: 20px;line-height: 7px;font-size: 12px">
+        <i class="glyphicon glyphicon-exclamation-sign"></i>
+        温馨提示：自由模式，任务完成后，发布者主动线下扫码支付酬劳即可。担保模式，发布者提前支付酬劳到平台，平台收取10%的担保金。
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-9">
+                <br>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {# 标题图 #}
+                    <div class="form-group">
+                        <label for="avatar">标题图</label>
+                        <input type="file" class="form-control-file" name="avatar" id="avatar">
+                    </div>
+                    {# 任务标题 #}
+                    <div class="form-group">
+                        <label for="title">任务标题</label>
+                        <input type="text" class="form-control" id="title" name="title">
+                    </div>
+                    {# 任务类别 #}
+                    <div class="form-group">
+                        <label for="category">任务类别</label>
+                        <select class="form-control col-3" id="category" name="category">
+                            <option value="none">请选择类别..</option>
+                            {% for item in category %}
+                                <option value="{{ item.id }}">{{ item.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {# 任务标签 #}
+                    <div class="form-group">
+                        <label for="tags">标签</label>
+                        <input type="text" class="form-control col-3" id="tags" name="tags">
+                    </div>
+                    {# 模式 #}
+                    <div class="form-group">
+                        <label for="mode">任务模式</label>
+                        <select class="form-control col-3" id="mode" name="mode">
+                            <option value="none">请选择模式..</option>
+                            {% for item in mode %}
+                                <option value="{{ item.0 }}">{{ item.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reward">酬金</label>
+                        <input type="text" class="form-control col-3" name="reward" id="reward">
+                    </div>
+                    {# 任务内容 #}
+                    <div class="form-group">
+                        <label for="content">任务内容</label>
+                        <textarea type="text" class="form-control" id="content" name="content" rows="12"></textarea>
+                    </div>
+                    {# 提交按钮 #}
+                    <button type="submit" class="btn btn-primary">发布</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scr %}
+    <script src="{% static 'layui/layui.js' %}"></script>
+{#    <script href="{% static 'layui/lay/modules/layedit.js' %}"></script>#}
+    {# layui富文本编辑器 #}
+    <script>
+        layui.use('layedit',function () {
+            var layedit = layui.layedit;
+            // 建立编辑器
+            layedit.build('content');
+        })
+    </script>
+{% endblock %}
+{% block load_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'layui/css/layui.css' %}">
+{% endblock %}

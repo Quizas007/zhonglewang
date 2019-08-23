@@ -31,5 +31,6 @@ urlpatterns = [
     url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
     # ckeditor
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
-    url(r'^test/$',views.test,name="test")
+    # chat
+    url(r'^chat/',include("apps.chat.urls",namespace="chat")),
 ]

@@ -1,10 +1,171 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% block title %}
+    任务大厅-自由模式
+{% endblock %}
 {% block content %}
+    <div style="margin-top: 30px">
+        &nbsp&nbsp&nbsp
+        <i class="glyphicon glyphicon-bell" style="color: #0c80ba"></i>
+        当前位置：任务大厅&nbsp-->&nbsp;自由模式任务列表
+    </div>
+    <div class="alert alert-info" role="alert" style="margin-top: 20px;line-height: 7px;font-size: 12px">
+        <i class="glyphicon glyphicon-exclamation-sign"></i>
+        自由模式：任务自由化，所有的沟通均由双方线下沟通，酬劳直接扫码到账，方便，快捷，效率高。此模式需求双方彼此信任，对个人素质要求极高，推荐低酬劳任务和紧急任务。
+    </div>
+    <div>
+        <ol class="breadcrumb" style="background-color: #ffffff">
+          <li>
+              <i class="glyphicon glyphicon-random" style="color: #0c80ba"></i>
+              <a href="{% url 'tasks:freelist' %}">自由模式</a>
+          </li>
+          <li>
+              <i class="glyphicon glyphicon-user" style="color: #0c80ba"></i>
+              <a href="{% url 'tasks:securitylist' %}">担保模式</a>
+          </li>
+        </ol>
+    </div>
+    <div class="container" style="margin-top: 30px">
+        {# 任务排序方式选择开始 #}
+        <div class="row">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'tasks:freelist' %}?search={{ search }}">
+                            最新
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'tasks:freelist' %}?order=total_views&search={{ search }}">
+                            最热
+                        </a>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+        {# 任务排序方式选择结束 #}
 
+        {# 搜索栏开始 #}
+        <div class="row">
+            <div class="col-lg-4" style="float: right">
+                <form class="form-inline">
+                    <label class="sr-only">content</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" name="search" placeholder="search" value="{{ search }}">
+                </form>
+            </div>
+        </div>
+        {# 搜索栏结束 #}
+
+        {# 任务列表开始mt-2 #}
+        <div class="row">
+            {% for task in tasks_free %}
+                {# 标题图 #}
+                {% if task.avatar %}
+                    <div class="col-3" style="float: left;margin-right: 20px">
+                        <img src="{{ task.avatar.url }}" alt="avatar" style="max-width: 100%;border-radius: 20px">
+                    </div>
+                {% endif %}
+                {# 任务内容 #}
+                <div class="col">
+                    {# 类别 #}
+                    {% if task.category %}
+                        <button type="button"
+                            class="btn btn-sm mb-2
+                                {% if task.category.name == 'Django' %}
+                                    btn-success
+                                {% elif task.category.name == 'Python' %}
+                                    btn-danger
+                                {% elif task.category.name == 'HTML' %}
+                                    btn-warning
+                                {% else %}
+                                    btn-primary
+                                {% endif %}
+                            "
+                        >
+                            {{ task.category }}
+                        </button>
+                    {% endif %}
+                    {# 酬劳 #}
+                    <span>
+                        <button class="btn btn-sm mb-2 btn-info">{{ task.reward }}元</button>
+                    </span>
+                    {# 标签 #}
+                    <span>
+                        {% for tag in task.tags.all %}
+                            <a href="#" class="badge badge-light">{{ tag }}</a>
+                        {% endfor %}
+                    </span>
+                    {# 标题 #}
+                    <h4>
+                        <b>
+                            <a href="{% url 'tasks:freelist' %}" style="color: black">
+                                {{ task.title }}
+                            </a>
+                        </b>
+                    </h4>
+                    {# 内容摘要 #}
+                    <div>
+                        <p style="color: grey">
+                            {{ task.content|safe|slice:"100" }}...
+                        </p>
+                    </div>
+                    {# 附加信息 #}
+                    <p>
+                        <span style="color: green">
+                            {{ task.total_views }}浏览 &nbsp;&nbsp;&nbsp;
+                        </span>
+                        <span style="color: blue">
+                            {{ task.created|date:'Y-m-d' }}发布 &nbsp;&nbsp;&nbsp;
+                        </span>
+                        <span style="color: darkred">
+                            {{ task.updated|date:'Y-m-d' }}更新
+                        </span>
+                        <span style="float: right">
+                            <a type="button" class="btn btn-primary" href="{% url 'tasks:free_detail' task.id%}">
+                                查看详情
+                            </a>
+                        </span>
+                    </p>
+                </div>
+                <hr style="width: 100%"/>
+            {% endfor %}
+        </div>
+        {# 任务列表结束 #}
+    {# 页码导航 #}
+    <div class="pagination row" style="margin-left: 500px">
+        <div class="m-auto">
+            <span class="step-links">
+                {# 如果不是上一页，则显示上翻按钮 #}
+                {% if tasks_free.has_previous %}
+                    <a href="?page=1&order={{ order }}&search={{ search }}" class="btn btn-success">
+                        &laquo;1
+                    </a>
+                    <span>...</span>
+                    <a href="?page={{ tasks_free.previous_page_number }}&order={{ order }}&search={{ search }}" class="btn btn-secondary">
+                        {{ tasks_free.previous_page_number }}
+                    </a>
+                {% endif %}
+                {# 当前页面 #}
+                <span class="current btn btn-danger btn-lg">
+                    {{ tasks_free.number }}
+                </span>
+                {# 如果不是最后一页，则显示下翻按钮 #}
+                {% if tasks_free.has_next %}
+                    <a href="?page={{ tasks_free.next_page_number }}&order={{ order }}&search={{ search }}" class="btn btn-secondary">
+                        {{ tasks_free.next_page_number }}
+                    </a>
+                    <span>...</span>
+                    <a href="?page={{ tasks_free.paginator.num_pages }}&order={{ order }}&search={{ search }}" class="btn btn-success">
+                        {{ tasks_free.paginator.num_pages }}&raquo;
+                    </a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
 {% endblock %}
 
 {% block scr %}
+
 {% endblock %}
 
 {% block load_css %}

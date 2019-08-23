@@ -1,8 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect,reverse
 from django.views.generic import View,DetailView
 from .models import Category,Articles
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from .forms import ArticleCreateForm
 
+# 展示所有文章
 class ArticlesList(LoginRequiredMixin,View):
     def get(self, request):
         category = Category.objects.all().values("id", "name")
@@ -16,41 +20,64 @@ class ArticlesList(LoginRequiredMixin,View):
 def test(request):
     pass
 
-class ArticleDetail(DetailView):
-    model = Articles
-    pk_url_kwarg = 'id'
-    template_name = "article_detail.html"
-    # 默认名：object
-    context_object_name = "object"
+# 展示文章详情
+def article_detail(request,id):
+    # 取出对应的文章
+    article = Articles.objects.get(id=id)
+    # 浏览量+1
+    article.total_views+=1
+    article.save(update_fields=['total_views'])
+    # 参数
+    kwgs = {
+        'article':article
+    }
+    return render(request,'article_detail.html',kwgs)
 
-    # 额外传递my_answer
-    def get_context_data(self, **kwargs):
-        # kwargs：字典、字典中的数据返回给html页面
-        # self.get_object() => 获取当前id的数据（问题）
-        question = self.get_object()  # 当前这道题目
-        return super().get_context_data(**kwargs)
+# 发表文章
+class ArticleCreate(View):
+    def get(self,request):
+        article_create_form = ArticleCreateForm()
+        context = {'article_create_form':article_create_form}
+        return render(request,'article_create.html',context)
+    def post(self,request):
+        article_create_form = ArticleCreateForm(data=request.POST)
+        if article_create_form.is_valid():
+            new_article = article_create_form.save(commit=False)
+            new_article.author = request.user
+            new_article.save()
+            return redirect(reverse("techstack:articles"))
+        else:
+            return HttpResponse("表单内容有误，请重新填写。")
 
-    def post(self, request, id):
-        from django.db import transaction
-        try:
-            with transaction.atomic():
-                # 没有回答过。create
-                # 更新回答。get->update
-                # 获取对象，没有获取到直接创建对象
-                new_answer = Answers.objects.get_or_create(question=self.get_object(), user=self.request.user)
-                # 元组：第一个元素获取/创建的对象， True（新创建）/False（老数据）
-                new_answer[0].answer = request.POST.get("answer", "没有提交答案信息")
-                new_answer[0].save()
-                # OPERATE = ((1, "收藏"), (2, "取消收藏"), (3, "回答"))
-                UserLog.objects.create(user=request.user, operate=3, question=self.get_object())
-                my_answer = json.loads(serializers.serialize("json", [new_answer[0]]))[0]["fields"]
-            msg = "提交成功"
-            code = 200
-        except Exception as ex:
-            logger.error(ex)
-            my_answer = {}
-            msg = "提交失败"
-            code = 500
+# 删除文章
+@login_required
+def article_delete(request,id):
+    article = Articles.objects.get(id=id)
+    if request.user != article.author:
+        return HttpResponse("抱歉，您无权删除此文章")
+    article.delete()
+    return redirect(reverse("techstack:articles"))
 
-        result = {"status": code, "msg": msg, "my_answer": my_answer}
-        return JsonResponse(result)
+# 修改文章
+class ArticleUpdate(LoginRequiredMixin,View):
+    def get(self,request,id):
+        article = Articles.objects.get(id=id)
+        if request.user != article.author:
+            return HttpResponse("抱歉，你无权修改这篇文章")
+        article_post_form = ArticleCreateForm()
+        context = {'article':article,'article_post_form':article_post_form}
+        return render(request,'article_update.html',context)
+
+    def post(self,request,id):
+        article = Articles.objects.get(id=id)
+        article_post_form = ArticleCreateForm(data=request.POST)
+        if article_post_form.is_valid():
+            article.title = request.POST['title']
+            article.body = request.POST['body']
+            article.save()
+            return redirect(reverse("article:article_detail"),id=id)
+        else:
+            return HttpResponse("表单内容有误，请重新填写。")
+
+
+
